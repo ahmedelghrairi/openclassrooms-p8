@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: mart_comparaison_region
+    description: >
+      Comparaison de la répartition régionale des étudiants avec la population française
+      et analyse de la corrélation entre taux de chômage et inscriptions sur 4 ans (2022-2025).
+      Répond à : "Certaines régions sont-elles sur ou sous-représentées ?"
+      et "Y a-t-il un lien entre le chômage régional et les inscriptions ?"
+      Les DROM sont inclus dans le volume d'inscriptions mais exclus des comparaisons
+      démographiques car les données INSEE et chômage ne sont pas disponibles à ce niveau.
+      Grain : une ligne par région et par année.
+      Conformité RGPD : aucune donnée personnelle — données agrégées uniquement.
+    columns:
+      - name: REGION
+        description: "Région française."
+        tests:
+          - not_null
+      - name: YEAR
+        description: "Année de référence."
+        tests:
+          - not_null
+      - name: NB_INSCRIPTIONS
+        description: "Nombre total d'inscriptions pour cette région et cette année."
+        tests:
+          - not_null
+      - name: POPULATION_REGIONALE
+        description: >
+          Population française totale pour cette région et cette année.
+          Source INSEE — toutes tranches d'âge et les deux genres confondus.
+          NULL pour les DROM car données INSEE non disponibles à ce niveau.
+      - name: PART_ETUDIANTS_PCT
+        description: >
+          Poids de cette région dans nos étudiants.
+          Calculé sur le total hors DROM pour garantir la cohérence avec
+          les données de population INSEE.
+      - name: PART_POPULATION_PCT
+        description: >
+          Poids de cette région dans la population française.
+          NULL pour les DROM car données INSEE non disponibles.
+      - name: ECART_PCT
+        description: >
+          Écart entre la part étudiants et la part population française.
+          Positif = région surreprésentée dans nos étudiants.
+          Négatif = région sous-représentée dans nos étudiants.
+          NULL pour les DROM.
+      - name: TAUX_INSCRIPTIONS_100K
+        description: >
+          Nombre d'inscriptions pour 100 000 habitants.
+          Indicateur normalisé permettant de comparer équitablement
+          les régions indépendamment de leur taille démographique.
+          NULL pour les DROM.
+      - name: TAUX_CHOMAGE_PCT
+        description: >
+          Taux de chômage annuel moyen de la région.
+          Source INSEE / France Travail.
+          NULL pour les DROM car données non disponibles.

@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: stg_insee
+    description: >
+      Données démographiques INSEE nettoyées par région, tranche d'âge, genre et année (2022-2025).
+      Les tranches 60 ans et plus sont agrégées en '60 ans ou plus'
+      pour correspondre exactement au dataset étudiant OpenClassrooms.
+      Source publique INSEE — aucune contrainte RGPD applicable.
+    columns:
+      - name: REGION
+        description: "Région française correspondant aux régions du dataset étudiant."
+        tests:
+          - not_null
+      - name: AGE_GROUP
+        description: >
+          Tranche d'âge de la population.
+          Les tranches 60-64 ans jusqu'à 95 ans et plus sont agrégées
+          en '60 ans ou plus' pour correspondre au dataset étudiant.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['20-24 ans', '25-29 ans', '30-34 ans', '35-39 ans',
+                         '40-44 ans', '45-49 ans', '50-54 ans', '55-59 ans',
+                         '60 ans ou plus']
+      - name: GENDER
+        description: "Genre de la population (M = Hommes, F = Femmes)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['F', 'M']
+      - name: YEAR
+        description: "Année de référence de la donnée démographique."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2022, 2023, 2024, 2025]
+      - name: POPULATION
+        description: "Population totale pour ce segment région / tranche d'âge / genre / année."
+        tests:
+          - not_null

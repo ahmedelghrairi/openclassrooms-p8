@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_chomage
+    description: >
+      Taux de chômage annuel moyen par région française (2022-2025).
+      Calculé comme moyenne des 4 trimestres de chaque année.
+      Les régions non présentes dans le dataset étudiant (Corse, DROM)
+      sont exclues pour garantir la cohérence des jointures.
+      Source INSEE / France Travail — aucune contrainte RGPD applicable.
+    columns:
+      - name: REGION
+        description: >
+          Région française.
+          Noms harmonisés pour correspondre exactement au dataset étudiant
+          et au dataset INSEE population.
+        tests:
+          - not_null
+      - name: YEAR
+        description: "Année de référence."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2022, 2023, 2024, 2025]
+      - name: TAUX_CHOMAGE_PCT
+        description: >
+          Taux de chômage annuel moyen en pourcentage.
+          Calculé comme moyenne des taux trimestriels T1, T2, T3, T4.
+        tests:
+          - not_null

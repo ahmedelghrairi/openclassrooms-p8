@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: mart_comparaison_genre
+    description: >
+      Comparaison de la répartition par genre des étudiants
+      avec la population française sur 4 ans (2022-2025).
+      Répond à : "Les femmes sont-elles sous-représentées et est-ce que ça s'améliore ?"
+      Les genres Non renseigné sont exclus de cette comparaison
+      car ils n'ont pas d'équivalent dans les données INSEE.
+      Grain : une ligne par genre et par année.
+      Conformité RGPD : aucune donnée personnelle — données agrégées uniquement.
+    columns:
+      - name: YEAR
+        description: "Année de référence."
+        tests:
+          - not_null
+      - name: GENDER
+        description: "Genre (F = Femmes, M = Hommes)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['F', 'M']
+      - name: NB_INSCRIPTIONS
+        description: "Nombre total d'inscriptions pour ce genre et cette année."
+        tests:
+          - not_null
+      - name: POPULATION_NATIONALE
+        description: >
+          Population française totale pour ce genre et cette année.
+          Source INSEE — toutes régions et toutes tranches d'âge confondues.
+        tests:
+          - not_null
+      - name: PART_ETUDIANTS_PCT
+        description: >
+          Poids de ce genre dans nos étudiants (hors Non renseigné).
+          Exemple : les femmes représentent 30.5% de nos étudiants en 2022.
+        tests:
+          - not_null
+      - name: PART_POPULATION_PCT
+        description: >
+          Poids de ce genre dans la population française.
+          Exemple : les femmes représentent 52.4% de la population française en 2022.
+        tests:
+          - not_null
+      - name: ECART_PCT
+        description: >
+          Écart entre la part étudiants et la part population française.
+          Positif = genre surreprésenté dans nos étudiants.
+          Négatif = genre sous-représenté dans nos étudiants.
+        tests:
+          - not_null

@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: mart_comparaison_age
+    description: >
+      Comparaison de la répartition par tranche d'âge des étudiants
+      avec la population française sur 4 ans (2022-2025).
+      Répond à : "Certaines tranches d'âge sont-elles surreprésentées ?"
+      et "Est-ce que le profil d'âge se rapproche de la population française ?"
+      Grain : une ligne par tranche d'âge et par année.
+      Conformité RGPD : aucune donnée personnelle — données agrégées uniquement.
+    columns:
+      - name: YEAR
+        description: "Année de référence."
+        tests:
+          - not_null
+      - name: AGE_GROUP
+        description: "Tranche d'âge."
+        tests:
+          - not_null
+      - name: NB_INSCRIPTIONS
+        description: "Nombre total d'inscriptions pour cette tranche d'âge et cette année."
+        tests:
+          - not_null
+      - name: POPULATION_NATIONALE
+        description: >
+          Population française totale pour cette tranche d'âge et cette année.
+          Source INSEE — toutes régions et les deux genres confondus.
+        tests:
+          - not_null
+      - name: PART_ETUDIANTS_PCT
+        description: >
+          Poids de cette tranche d'âge dans nos étudiants.
+          Exemple : les 30-34 ans représentent 27% de nos étudiants en 2022.
+        tests:
+          - not_null
+      - name: PART_POPULATION_PCT
+        description: >
+          Poids de cette tranche d'âge dans la population française.
+          Exemple : les 30-34 ans représentent 9% de la population française en 2022.
+        tests:
+          - not_null
+      - name: ECART_PCT
+        description: >
+          Écart entre la part étudiants et la part population française.
+          Positif = tranche surreprésentée dans nos étudiants.
+          Négatif = tranche sous-représentée dans nos étudiants.
+        tests:
+          - not_null

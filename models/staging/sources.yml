@@ -1,0 +1,45 @@
+version: 2
+
+sources:
+  - name: raw
+    database: OPENCLASSROOMS_DB
+    schema: RAW
+    tables:
+      - name: students_data
+        description: "Données brutes des étudiants inscrits aux parcours Data OpenClassrooms (2022-2025)"
+        columns:
+          - name: USER_ID
+            description: "Identifiant unique de l'étudiant"
+          - name: PATH_CATEGORY_NAME
+            description: "Catégorie du parcours (toujours Data)"
+          - name: AGE_GROUP
+            description: "Tranche d'âge de l'étudiant"
+          - name: GENDER
+            description: "Genre déclaré par l'étudiant (peut être null)"
+          - name: REGION
+            description: "Région de résidence de l'étudiant"
+          - name: YEAR_PATH_STARTED
+            description: "Année de début du parcours"
+
+      - name: insee_population
+        description: "Données démographiques INSEE par région, tranche d'âge, genre et année (2022-2025)"
+        columns:
+          - name: REGION
+            description: "Région française"
+          - name: AGE_GROUP
+            description: "Tranche d'âge"
+          - name: GENDER
+            description: "Genre (M ou F)"
+          - name: YEAR
+            description: "Année de référence"
+          - name: POPULATION
+            description: "Population totale pour ce segment"
+      - name: chomage_regions
+        description: "Taux de chômage annuel moyen par région française (2022-2025) - Source INSEE / France Travail"
+        columns:
+          - name: REGION
+            description: "Région française"
+          - name: YEAR
+            description: "Année de référence"
+          - name: TAUX_CHOMAGE_PCT
+            description: "Taux de chômage annuel moyen en pourcentage"

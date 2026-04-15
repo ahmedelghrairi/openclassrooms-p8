@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: stg_students
+    description: >
+      Données nettoyées des étudiants inscrits aux parcours Data OpenClassrooms (2022-2025).
+      Les valeurs nulles du genre sont remplacées par 'Non renseigné'.
+      Conformité RGPD : USER_ID est une donnée pseudonymisée utilisée uniquement
+      pour le comptage — il disparaît par agrégation dans la couche intermediate.
+      Aucune donnée directement identifiante n'est présente dans les tables finales.
+    columns:
+      - name: USER_ID
+        description: >
+          Identifiant technique pseudonymisé de l'étudiant.
+          Donnée personnelle au sens du RGPD.
+          Utilisée uniquement pour le comptage des inscriptions.
+        tests:
+          - not_null
+      - name: PATH_CATEGORY_NAME
+        description: "Catégorie du parcours — toujours 'Data' dans ce dataset."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Data']
+      - name: AGE_GROUP
+        description: "Tranche d'âge de l'étudiant au moment de l'inscription."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['20-24 ans', '25-29 ans', '30-34 ans', '35-39 ans',
+                         '40-44 ans', '45-49 ans', '50-54 ans', '55-59 ans',
+                         '60 ans ou plus']
+      - name: GENDER
+        description: >
+          Genre déclaré par l'étudiant.
+          Les valeurs nulles sont remplacées par 'Non renseigné'
+          pour garantir la complétude des données.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['F', 'M', 'Non renseigné']
+      - name: REGION
+        description: "Région de résidence de l'étudiant."
+        tests:
+          - not_null
+      - name: YEAR_PATH_STARTED
+        description: "Année de début du parcours."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2022, 2023, 2024, 2025]

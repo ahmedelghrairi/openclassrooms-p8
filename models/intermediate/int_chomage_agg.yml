@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: int_chomage_agg
+    description: >
+      Préparation des données de taux de chômage par région et année.
+      Grain : une ligne par région et par année.
+      Ce modèle est conçu pour accueillir des transformations futures
+      comme le calcul de la variation annuelle du taux de chômage.
+      Source INSEE / France Travail — aucune contrainte RGPD applicable.
+    columns:
+      - name: REGION
+        description: "Région française."
+        tests:
+          - not_null
+      - name: YEAR
+        description: "Année de référence."
+        tests:
+          - not_null
+      - name: TAUX_CHOMAGE_PCT
+        description: >
+          Taux de chômage annuel moyen en pourcentage.
+          Calculé comme moyenne des taux trimestriels T1, T2, T3, T4.
+        tests:
+          - not_null
