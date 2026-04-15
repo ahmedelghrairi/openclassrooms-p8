@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: int_insee_agg
+    description: >
+      Agrégation des données démographiques INSEE par région, tranche d'âge, genre et année.
+      Grain : une ligne par région / tranche d'âge / genre / année.
+      Source publique — aucune contrainte RGPD applicable.
+    columns:
+      - name: REGION
+        description: "Région française."
+        tests:
+          - not_null
+      - name: AGE_GROUP
+        description: "Tranche d'âge de la population."
+        tests:
+          - not_null
+      - name: GENDER
+        description: "Genre de la population (M ou F)."
+        tests:
+          - not_null
+      - name: YEAR
+        description: "Année de référence."
+        tests:
+          - not_null
+      - name: POPULATION_TOTALE
+        description: "Population totale pour ce segment région / tranche d'âge / genre / année."
+        tests:
+          - not_null

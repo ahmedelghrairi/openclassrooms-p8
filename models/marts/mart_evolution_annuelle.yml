@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: mart_evolution_annuelle
+    description: >
+      Vue globale de l'évolution des inscriptions par année.
+      Répond à : "Comment évolue le profil global sur 4 ans ?"
+      Grain : une ligne par année.
+      Conformité RGPD : aucune donnée personnelle — données agrégées uniquement.
+    columns:
+      - name: YEAR
+        description: "Année de début du parcours."
+        tests:
+          - not_null
+          - unique
+      - name: NB_INSCRIPTIONS_TOTAL
+        description: "Nombre total d'inscriptions pour cette année."
+        tests:
+          - not_null
+      - name: PART_FEMMES_PCT
+        description: >
+          Part des femmes parmi les genres renseignés (hors Non renseigné).
+          Indicateur de parité — permet de suivre l'évolution de l'égalité des chances.
+        tests:
+          - not_null
+      - name: PART_HOMMES_PCT
+        description: >
+          Part des hommes parmi les genres renseignés (hors Non renseigné).
+        tests:
+          - not_null
+      - name: PART_NON_RENSEIGNE_PCT
+        description: >
+          Part des genres non renseignés sur le total.
+          Indicateur de qualité des données — doit diminuer dans le temps.
+        tests:
+          - not_null
+      - name: PART_IDF_PCT
+        description: >
+          Part de l'Île-de-France dans le total national.
+          Indicateur d'accessibilité géographique.
+        tests:
+          - not_null
