@@ -20,7 +20,5 @@ models:
   openclassrooms_p8:
     staging:
       +materialized: view
-    intermediate:
-      +materialized: view
     marts:
       +materialized: table
